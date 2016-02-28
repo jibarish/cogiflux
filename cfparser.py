@@ -85,6 +85,9 @@ def test_cfdoc(filename):
         print ("  No match: {0}".format(str(x)))
     print ()
 
+def parse(filename):
+    return cfdoc.parseFile(filename, parseAll=False)
+
 def main():
     # test_cfunit()
     test_cfdoc("input.cflux")
