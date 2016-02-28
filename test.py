@@ -8,8 +8,10 @@ import pyparsing as pp
 # at             ::= "@"
 # lcb            ::= "{"
 # rcb            ::= "}"
+# us             ::= "_"
 # strlit         ::= ( A-Ba-b0-9 )
-# tag            ::= at strlit
+# taghead        ::= at | us
+# tag            ::= taghead strlit
 # taglist        ::= { tag }
 # inline_content ::= { ^( \n ) }
 # block_content  ::= { ^( \{\} ) }
@@ -23,16 +25,18 @@ import pyparsing as pp
 #
 # Grammar
 #
-at             = pp.Literal('@')
-lcb            = pp.Literal('{')
-rcb            = pp.Literal('}')
+at             = pp.Literal('@').suppress()
+lcb            = pp.Literal('{').suppress()
+rcb            = pp.Literal('}').suppress()
+us             = pp.Literal('_').suppress()
 strlit         = pp.Word(pp.alphanums)
-tag            = at.suppress() + strlit
+taghead        = at | us
+tag            = taghead + strlit
 taglist        = pp.Group(pp.OneOrMore(tag)).setResultsName('tags')
 inline_content = pp.CharsNotIn('\n')
-block_content  = pp.CharsNotIn(['{', '}'])
+block_content  = pp.CharsNotIn([lcb, rcb])
 inline         = pp.OneOrMore(inline_content)
-block          = lcb.suppress() + pp.OneOrMore(block_content) + rcb.suppress()
+block          = lcb + pp.OneOrMore(block_content) + rcb
 content        = (block | inline).setResultsName('content')
 cfunit         = pp.Group(taglist + pp.Optional(content, default=''))
 cfdoc          = pp.OneOrMore(cfunit)
