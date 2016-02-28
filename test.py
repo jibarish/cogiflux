@@ -10,13 +10,13 @@ import pyparsing as pp
 # rcb            ::= "}"
 # strlit         ::= ( A-Ba-b0-9 )
 # tag            ::= at strlit
+# taglist        ::= { tag }
 # inline_content ::= { ^( \n ) }
 # block_content  ::= { ^( \{\} ) }
 # inline         ::= { inline_content }
 # block          ::= lcb { block_content } rcb
-# inline_unit    ::= { tag } inline
-# block_unit     ::= { tag } block
-# cfunit         ::= block_unit | inline_unit
+# content        ::= block | inline
+# cfunit         ::= taglist + [ content ]
 # cfdoc          ::= { cfunit }
 # ----------------------------------------------------
 
@@ -28,13 +28,13 @@ lcb            = pp.Literal('{')
 rcb            = pp.Literal('}')
 strlit         = pp.Word(pp.alphanums)
 tag            = at.suppress() + strlit
+taglist        = pp.Group(pp.OneOrMore(tag)).setResultsName('tags')
 inline_content = pp.CharsNotIn('\n')
-block_content  = pp.OneOrMore(pp.CharsNotIn(['{', '}']))
+block_content  = pp.CharsNotIn(['{', '}'])
 inline         = pp.OneOrMore(inline_content)
 block          = lcb.suppress() + pp.OneOrMore(block_content) + rcb.suppress()
-inline_unit    = pp.OneOrMore(tag) + inline
-block_unit     = pp.OneOrMore(tag) + block
-cfunit         = block_unit | inline_unit
+content        = (block | inline).setResultsName('content')
+cfunit         = pp.Group(taglist + pp.Optional(content, default=''))
 cfdoc          = pp.OneOrMore(cfunit)
 
 #
@@ -43,9 +43,9 @@ cfdoc          = pp.OneOrMore(cfunit)
 def test_cfunit():
     testlist = [
         # Valid cfunits
-        '@idea make a superintelligent machine\n',
-        '@quote "The best laid plans..." - RB\n',
-        '@watch @steph scotland, pa\n',
+        '@idea make a superintelligent machine',
+        '@quote "The best laid plans..." - RB',
+        '@watch @steph scotland, pa',
         '@ok {ant bee crow}',
         '@todo { water tree, play with peps, holla }',
         '@todo {\nwater tree\nplay with peps\nholla\n}',
@@ -59,7 +59,9 @@ def test_one(s):
     print ("---Test for '{0}'".format(s))
     try:
         result = cfunit.parseString(s)
-        print ("  Matches: {0}".format(result))
+        # Printing
+        print ("\ttags: {0}".format(result[0]['tags']))
+        print ("\tcontent: {0}".format(result[0]['content']))
     except pp.ParseException as x:
         print ("  No match: {0}".format(str(x)))
     print ()
@@ -67,15 +69,20 @@ def test_one(s):
 def test_cfdoc(filename):
     try:
         result = cfdoc.parseFile(filename, parseAll=False)
-        # print ("  Matches: {0}".format(result))
+        # Printing
+        i = 1
         for each in result:
-            print ("  Matches: {0}".format(each))
+            print ("Entry {0}:".format(i))
+            print ("\ttags: {0}".format(each['tags']))
+            print ("\tcontent: {0}".format(each['content']))
+            print ()
+            i += 1
     except pp.ParseException as x:
         print ("  No match: {0}".format(str(x)))
     print ()
 
 def main():
-    test_cfunit()
+    # test_cfunit()
     test_cfdoc("input.cflux")
 
 if __name__ == "__main__":
