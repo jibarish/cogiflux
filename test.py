@@ -2,35 +2,40 @@
 
 import pyparsing as pp
 
-# BNF
-# tag     ::= "@" <strlit>
-# content ::= {<strlit>}
-# block   ::= "{" content "}"
-# cfunit  ::= tag {tag} content "/n" | block
-# doc     ::= {cfunit}
+# ----------------------------------------------------
+#       BNF
+# ----------------------------------------------------
+# at             ::= "@"
+# lcb            ::= "{"
+# rcb            ::= "}"
+# strlit         ::= ( A-Ba-b0-9 )
+# tag            ::= at strlit
+# inline_content ::= { ^( \n ) }
+# block_content  ::= { ^( \{\} ) }
+# inline         ::= { inline_content }
+# block          ::= lcb { block_content } rcb
+# inline_unit    ::= { tag } inline
+# block_unit     ::= { tag } block
+# cfunit         ::= block_unit | inline_unit
+# cfdoc          ::= { cfunit }
+# ----------------------------------------------------
 
 # Defs
-# first = pp.Word(pp.alphas+"_", exact=1)
-# rest = pp.Word(pp.alphanums+"_")
-# identifier = first+pp.Optional(rest)
-
-
-
-at     = pp.Literal('@')  # pp.Word("@", exact=1)
-lcb    = pp.Literal('{')
-rcb    = pp.Literal('}')
-strlit = pp.Word(pp.alphanums)
-tag    = at + strlit
+at             = pp.Literal('@')
+lcb            = pp.Literal('{')
+rcb            = pp.Literal('}')
+strlit         = pp.Word(pp.alphanums)
+tag            = at + strlit
 inline_content = pp.CharsNotIn('\n')
 block_content  = pp.OneOrMore(pp.CharsNotIn(['{', '}']))
-inline = pp.OneOrMore(inline_content)
-block  = lcb + pp.OneOrMore(block_content) + rcb
-inline_unit = pp.OneOrMore(tag) + inline
-block_unit  = pp.OneOrMore(tag) + block
-cfunit = block_unit | inline_unit
-# cfdoc  = pp.OneOrMore(cfunit)
+inline         = pp.OneOrMore(inline_content)
+block          = lcb + pp.OneOrMore(block_content) + rcb
+inline_unit    = pp.OneOrMore(tag) + inline
+block_unit     = pp.OneOrMore(tag) + block
+cfunit         = block_unit | inline_unit
+cfdoc          = pp.OneOrMore(cfunit)
 
-# Code
+# Testing
 testList = [
     # Valid cfunits
     '@idea make a superintelligent machine\n',
