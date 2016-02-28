@@ -40,7 +40,7 @@ cfdoc          = pp.OneOrMore(cfunit)
 #
 # Testing
 #
-def test_singles():
+def test_cfunit():
     testlist = [
         # Valid cfunits
         '@idea make a superintelligent machine\n',
@@ -53,9 +53,9 @@ def test_singles():
         "", "1", "$*", "a_#"
     ]
     for text in testlist:
-        test_single(text)
+        test_one(text)
 
-def test_single(s):
+def test_one(s):
     print ("---Test for '{0}'".format(s))
     try:
         result = cfunit.parseString(s)
@@ -64,7 +64,7 @@ def test_single(s):
         print ("  No match: {0}".format(str(x)))
     print ()
 
-def test_file(filename):
+def test_cfdoc(filename):
     with open(filename, 'r') as infile:
         s = infile.read()
 
@@ -79,8 +79,8 @@ def test_file(filename):
     print ()
 
 def main():
-    # test_singles()
-    # test_file("input.cflux")
+    test_cfunit()
+    test_cfdoc("input.cflux")
 
 if __name__ == "__main__":
     main()
