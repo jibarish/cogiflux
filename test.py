@@ -27,11 +27,11 @@ at             = pp.Literal('@')
 lcb            = pp.Literal('{')
 rcb            = pp.Literal('}')
 strlit         = pp.Word(pp.alphanums)
-tag            = at + strlit
+tag            = at.suppress() + strlit
 inline_content = pp.CharsNotIn('\n')
 block_content  = pp.OneOrMore(pp.CharsNotIn(['{', '}']))
 inline         = pp.OneOrMore(inline_content)
-block          = lcb + pp.OneOrMore(block_content) + rcb
+block          = lcb.suppress() + pp.OneOrMore(block_content) + rcb.suppress()
 inline_unit    = pp.OneOrMore(tag) + inline
 block_unit     = pp.OneOrMore(tag) + block
 cfunit         = block_unit | inline_unit
@@ -65,12 +65,8 @@ def test_one(s):
     print ()
 
 def test_cfdoc(filename):
-    with open(filename, 'r') as infile:
-        s = infile.read()
-
-    print ("---Test for '{0}'".format(s))
     try:
-        result = cfdoc.parseString(s)
+        result = cfdoc.parseFile(filename, parseAll=False)
         # print ("  Matches: {0}".format(result))
         for each in result:
             print ("  Matches: {0}".format(each))
