@@ -1,0 +1,178 @@
+@do_movie @steph black mirror
+@do_movie @steph scotland, pa
+@do_book @na getting things done
+@do_book women - bukowski
+
+@do_music http://aclubenefit.bandcamp.com/
+
+@lyrics @frag {
+the world is ruled with rice-a-roni
+if you don't believe me just ask a pony
+}
+
+@quote "They say everyone's born a hero. But if you let it, life will push you over the line, until you are the villain. Problem is, you don't always know that you've crossed that line." - Jennifer Jones (TV series)
+
+@quote "You need to act your age and not your girl's age" - Drake, 6 pm in New York
+
+@shopping_other monitors - goodwill
+@shopping_other bluetooth headset
+@shopping_other headphones
+@shopping_other backpack
+
+@quote "Money is an amplifier. It brings out and exaggerates what is already there. When dealing with a good and honorable person, money entering the equation will make them even more so. The opposite, however, is also true! Be wise as to who you choose for a partner; often enough the profit is just not worth it!" - Ben Leybovich, 20 Ways to Buy an Investment Property with 2000 or less
+
+@quote "However, you should know that ability to finance property is predicated on different factors in the Single Family and Small Multiplex markets versus the commercial space. Without going into great detail, let me just say that on the commercial side it is the asset that qualifies for the loan more so than you or your personal income. In very broad terms, you may actually benefit from playing on the commercial side." - Ben Leybovich, 20 Ways to Buy an Investment Property with 2000 or less
+
+@do track monthly expenses, develop system / app
+@do setup database
+
+@research gtd, getting things done, david allen, systems / apps of implementing
+
+@research flow (psychology)
+
+@i_life keep revolving lists of topics of discussion / talking points for specific people
+
+@topic @na @dadn gtd
+@topic @na @dadn evernote, keeping notes organized etc
+@topic @na @dadn personal finance management
+@topic @na @dadn real estate investment / wealth generation
+
+@project @dev euterpea
+@project @dev euterpea
+
+@do @life develop a system to finally start organizing, bug tracking, and tracking the development of software projects.  A major goal of this is to keep projects alive and see them through to a finish.  A past pattern I would like to change has been an initial
+
+@i @life develop a lexicon to help you describe, think intelligently, effectively, efficiently about your life.  For example, the term "antipattern" is good to describe something you might be inclined to call a "problem."  It's better because it's cleaner, more accurate, and implies its solution with its own definition.  The lexicon of a given domain is actually a potentially very important and overlooked limiting factor in your ability to think and solve problems within that domain.  Without an established lexicon (and system of semantics - this is a more complex issue which requires more thought) too much energy is spent struggling over how to describe issues, which is merely the first step and should be as smooth as possible.
+
+@learn latin
+
+@do_dev syntax highlighting for markup language in dev for cogiflux input (of which this is an example). So far the only designating symbols used are '@', '-', '{', '}'. But designations are made using spaces and newlines as well.
+
+@i_dev develop natural language processing engine which takes natural language commands as input and translates them into sql queries (or whatever). (Eg. "list movies to watch with steph" --> select dm.title, dm.type, c.name as "with" from do_media dm, confrere c where c.id = dm.association and c.name = 'Steph';)
+
+@lo @hi and then a few more @this @that @this
+
+@research ACT-R http://act-r.psy.cmu.edu/
+
+@research stoicism, epicureanism
+
+@research supercooled beverages http://physics.stackexchange.com/questions/11380/why-did-my-liquid-soda-freeze-once-i-pulled-it-out-of-the-fridge
+
+@do_movie muppets (pepe the king prawn)
+
+@do send @nips password info
+
+@do send @nips and @rents steph pics
+
+@quote "integrity is saying no to most things" - https://www.youtube.com/watch?v=zXCiv4sc5eY
+
+@research {
+	# 6 human needs
+	if 3 of these are met, a behavior will become addictive
+	6 human needs:
+		1) significance
+		2) certainty (security)
+		3) uncertainty
+		4) connection / love
+		5) growth
+		6) contribution
+}
+
+@quote "I do what I can to make you love me" - almost said by Steph until she revised the last term to happy
+
+@idea_title White People Walking on Eggshells  - phrase came up in conversation with Steph, in the context of me saying that it's not what's gonna save the world...then noticed it's a fun title of something
+
+@do_music soko
+@do_music tuneyards
+@do_music deerhoof
+
+@tv longmire; revenge; suits; limitless @assoc rents
+
+@convo @steph BRCA mutation, triple negative breast cancer, Aunt Jane, masectomy; archer; Uncle Jack quadruple bypass
+
+@research ashkenazi jews
+
+@real_estate creative investing: "subject to loans", owner financing
+
+@real_estate @books {
+	proverbs (NIV 1984)
+	think and grow rich
+	how to win friends and influence people
+	awaken the giant within
+	good to great
+}
+
+@books @finance {
+	the millionaire mind
+}
+
+@books {
+	getting things done
+	the 7 habits of highly effective people
+	the signal and the noise
+}
+
+@books {
+	man's search for meaning
+	SWAY: The Irresistible Pull of Irrational Behavior
+	Unbroken - Lauren Hillenbrand
+}
+
+@read {
+	# poetry
+	find/discover poetry/poets, list
+		- how to discover?
+	locate works
+	Have revolving "shelf" of works available to read
+	goal: read some poetry every night in bath
+}
+
+@idea_story Caleb told story about how if he were a millionaire he would cold call random people, read through a telemarketing script, and if they were nice, at the end he'd give them $100k (b/c he;s a former telemarketer).  So the extension is that former employees of whatever kind would all do this differently.
+
+@idea "speaking of me..." person constantly interjects
+
+@books emerson - self-reliance
+
+@read @poetry Adrienne Rich; nayyirah waheed - nejma
+
+@knowledge @real_estate http://www.hud.com/; https://www.freedommentor.com/
+
+@software @gtd OmniFocus
+
+@quote "If i cared about what you do on the weekend, I'd put a shotgun in my mouth and pull the trigger with my toes." - Archer, s2e8
+
+@books @Steph {
+	The Magus - John Fowles
+	Feed - M. T. Anderson
+}
+
+@books {
+	The Boy Detective Fails
+	The Wasp Factory
+	Gerald's Game
+}
+
+@movie under the skin
+
+@music rhythm of the night - DeBarge
+
+@shopping_wish "samovar" that is a) heat insulated, b) sizeable, and c) has a removable tea-steeping cage (this it the tough one, I assume). Alternatively, the steeping cage could be at the top, so that after the first cup is poured the tea is no longer steeping
+
+@research tantalus
+
+@books roger scruton
+
+@quote "I thought I was getting into a real story thing..."  --Steph in reaction to one of my microfiction fragments
+
+@quote "i broke up with my boyfriend over text while he was in misouri (misery)" - overheard at Mariposa Cafe in Boston, MA, during a conversation between two women about the effects of mercury retrograde
+
+@remember geotechnical engineering (nips' specialization)
+
+@research Grace Paley
+
+@quote "I wonder if they're gonna be able to roll a joint with all the weed they find in my keyboard."  - Steph about bringing her keyboard for repair
+
+@concept abstract revenge - dissociating feelings of hurt from their source (in another person), and using them to fuel personal pursuits in a self-reliant manner, so that "revenge" consists primarily in accomplishing one's own will
+
+@quote "If I don't have copious amounts of time to deal with the trivialities then I never get to the meditational" -Steph
+
