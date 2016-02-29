@@ -1,0 +1,54 @@
+.TH COGIFLUX 1
+.SH NAME
+.B cogiflux
+\- process
+.B cogiflux
+files
+.SH SYNOPSIS
+.B cogiflux
+[\fB\-dhw\fR]
+.IR input_file
+[\fB\-b\fR [\fIbackup_file\fR]]
+[\fB\-j\fR [\fIjson_storage_file\fR]]
+.SH DESCRIPTION
+.B cogiflux
+is the processing engine for
+.B cogiflux
+files. It backs up, parses, and stores entries from \fIinput_file\fR in a
+.B json
+file or relational database.
+.SH OPTIONS
+.TP
+.BR \-b ", " \-\-backup " [" \fIbackup_file\fR]
+Append content of unparsed \fIinput_file\fR to \fIbackup_file\fR under a timestamped header. Create file if none exists.
+Default is \fI$root/cabinet/backup.cflux\fR.
+.TP
+.BR \-d ", " \-\-db
+Add entries of parsed \fIinput_file\fR to a relational database.
+.TP
+.BR \-h ", " \-\-help
+Display \fBargparse\fR's automatically generated command information.
+.TP
+.BR \-j ", " \-\-json " [" \fIjson_storage_file\fR]
+Add entries of parsed \fIinput_file\fR to \fIjson_storage_file\fR. Create file if none exists.
+Default is \fI$root/cabinet/entries.json\fR.
+.TP
+.BR \-w ", " \-\-wipe
+Erase \fIinput_file\fR after processing.
+.SH EXAMPLES
+Cogiflux files have the .cflux extension.
+.SH FILES
+tbd
+.SH ENVIRONMENT
+tbd
+.SH HISTORY
+.SH DIAGNOSTICS
+tbd
+.SH BUGS
+tbd
+.SH AUTHOR
+Written by Roger Rush <\fIrogerjrush@gmail.com\fR>
+.SH COPYRIGHT
+Copyright (c) 2016 Roger Rush
+.SH SEE ALSO
+.B python(1)

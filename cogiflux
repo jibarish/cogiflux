@@ -1,0 +1,229 @@
+#!/usr/bin/env python3
+# ------------------------------------------------------------------------------
+#                                    _  __ _
+#                     ___ ___   __ _(_)/ _| |_   ___  __
+#                    / __/ _ \ / _` | | |_| | | | \ \/ /
+#                   | (_| (_) | (_| | |  _| | |_| |>  <
+#                    \___\___/ \__, |_|_| |_|\__,_/_/\_\
+#                              |___/
+#
+# ------------------------------------------------------------------------------
+#                       Copyright (c) 2016 Roger Rush
+#                           <rogerjrush@gmail.com>
+# ------------------------------------------------------------------------------
+#
+# cogiflux  is  the  processing engine for cogiflux files. It backs up, parses,
+# and stores entries from input_file in a json file or relational database.
+#
+# Usage:
+#
+# cogiflux [-dhw] input_file [-b [backup_file]] [-j [json_storage_file]]
+#
+# -b, --backup [backup_file]
+#       Append content of unparsed input_file to backup_file under  a  timestamped
+#       header.   Create   file   if   none   exists.    Default   is  $root/cabi-
+#       net/backup.cflux.
+#
+# -d, --db
+#       Add entries of parsed input_file to a relational database.
+#
+# -h, --help
+#       Display argparse's automatically generated command information.
+#
+# -j, --json [json_storage_file]
+#       Add entries of parsed input_file to json_storage_file. Create file if none
+#       exists.  Default is $root/cabinet/entries.json.
+#
+# -w, --wipe
+#       Erase input_file after processing.
+#
+#
+
+import os, sys, argparse, inspect, datetime, json
+from cfparser import cfparse
+
+# ------------------------------------------------------------------------------
+#
+# Setup
+#
+
+# Dirs
+rootdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+cabdir = os.path.join(rootdir, 'cabinet')
+testdir = os.path.join(rootdir, 'test')
+
+# Make cabinet if it doesn't exist
+os.makedirs(cabdir,exist_ok=True)
+
+# Default files
+backupfile = os.path.join(cabdir, 'backup.cflux')
+entriesfile = os.path.join(cabdir, 'entries.json')
+
+# ------------------------------------------------------------------------------
+#
+# Parse arguments
+#
+parser = argparse.ArgumentParser(
+    prog='cogiflux',
+    description='Process cogiflux/cflux files.',
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('input_file', help='cogiflux file to process')
+parser.add_argument('-b', '--backup', const=backupfile, default=False,
+    action='store', nargs='?', type=str, metavar='',
+    help='append unparsed data to backup file under timestamped header')
+parser.add_argument('-d', '--db', action='store_true',
+    help='parse input and add entries to relational database')
+parser.add_argument('-j', '--json', const=entriesfile, default=False,
+    action='store', nargs='?', type=str, metavar='',
+    help='parse input and add entries to json storage file')
+parser.add_argument('-w', '--wipe', action='store_true',
+    help='erase input file after processing')
+args = parser.parse_args()
+
+# Get absolute paths
+infile = os.path.abspath(args.input_file)
+try:
+    backupfile = os.path.abspath(args.backup)
+except:
+    backupfile = False
+try:
+    entriesfile = os.path.abspath(args.json)
+except:
+    entriesfile = False
+
+# ------------------------ DEBUG ------------------------
+# print ("infile: {0}".format(infile))
+# print ("backup: {0}".format(backupfile))
+# print ("db: {0}".format(args.db))
+# print ("json: {0}".format(entriesfile))
+# print ("wipe: {0}".format(args.wipe))
+# -------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+#
+# Classes
+#
+
+class Entry:
+    def __init__(self, date, tags, content):
+        self.date = date
+        self.tags = tags
+        self.content = content
+
+    def to_dict(self):
+        return self.__dict__
+
+class CfEncoder(json.JSONEncoder):
+    def default(self, o):
+        return o.to_dict()
+
+# ------------------------------------------------------------------------------
+#
+# Tools
+#
+
+def get_data(filename):
+    """Return raw contents of file."""
+    with open(filename, 'r') as f:
+        return f.read()
+
+def stamp():
+    """Return present timestamp."""
+    return '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
+
+def parse(filename):
+    """Call cfparser and return parsed cfdata."""
+    try:
+        return cfparse(filename)
+    except:
+        print ("Something went wrong during parsing. Most likely the input file is empty or not a valid cogiflux file. See man page for cogiflux file formatting spec. There may be a debugging menu coming soon, or debug cfparser.py directly, by calling cfparse(filename).")
+        exit()
+
+def print_header():
+    print ('                      _  __ _               ')
+    print ('       ___ ___   __ _(_)/ _| |_   ___  __   ')
+    print ('      / __/ _ \ / _` | | |_| | | | \ \/ /   ')
+    print ('     | (_| (_) | (_| | |  _| | |_| |>  <    ')
+    print ('      \___\___/ \__, |_|_| |_|\__,_/_/\_\   ')
+    print ('                |___/                       ')
+    print ('                                            ')
+
+# ------------------------------------------------------------------------------
+#
+# Public
+#
+
+def backup(src, dst):
+    """Append src file contents to dst file under timestamped header. Create
+    dst if it does not exist.
+    """
+    with open(dst, 'a') as output:
+        output.write("\n\n\n")
+        output.write("%% " + stamp())
+        output.write("\n\n")
+        data = get_data(src).strip("\n")
+        output.write(data)
+
+    # ------------------------ DEBUG ------------------------
+    # i = 1
+    # for each in result:
+    #     print ("Entry {0}:".format(i))
+    #     print ("\ttags: {0}".format(each['tags']))
+    #     print ("\tcontent: {0}".format(each['content']))
+    #     print ()
+    #     i += 1
+    # -------------------------------------------------------
+
+def store_db(cfdata):
+    """Add cfdata entries to a relational database."""
+    print("To a database and beyond!!") # tbd
+
+def store_json(cfdata, dst):
+    """Add cfdata entries to dst, which must be a json file. Create dst if it
+    does not exist.
+    """
+    try:
+        with open(entriesfile, 'r') as f:
+            try:
+                entries = json.load(f)
+            except:
+                entries = []
+    except:
+        with open(entriesfile, 'w') as f:
+            pass
+        entries = []
+
+    with open(entriesfile, 'w') as f:
+        for each in cfdata:
+            date = stamp()
+            tags = [x for x in each['tags']]
+            content = each['content']
+            entry = Entry(date, tags, content)
+            entries.append(entry.to_dict())
+        json.dump(entries, f, cls=CfEncoder)
+
+def wipe(filename):
+    """Erase file."""
+    with open(filename, 'w') as f:
+        f.write("")
+
+# ------------------------------------------------------------------------------
+#
+# Main
+#
+
+def main():
+    print_header()
+    if backupfile:
+        backup(infile, backupfile)
+    if args.db or entriesfile:
+        result = parse(infile)
+        if args.db:
+            store_db(result)
+        if entriesfile:
+            store_json(result, entriesfile)
+    if args.wipe:
+        wipe(infile)
+
+if __name__ == "__main__":
+    main()
